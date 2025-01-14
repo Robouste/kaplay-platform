@@ -14,4 +14,4 @@ AssetsLoader.loadSounds();
 scene(SceneTag.MainMenu, () => new MainMenuScene());
 scene(SceneTag.Game, () => new GameScene());
 
-go(SceneTag.MainMenu);
+go(SceneTag.Game);

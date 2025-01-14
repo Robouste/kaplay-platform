@@ -1,4 +1,4 @@
 export enum SceneTag {
-	Game = "game",
-	MainMenu = "main-menu",
+	Game = "game_scene",
+	MainMenu = "main-menu_scene",
 }
