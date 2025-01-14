@@ -1,12 +1,11 @@
 import { GameConfig } from "../configs/game.config";
-import { Hero } from "../objects/hero.object";
+import { Hero } from "../objects/hero/hero.object";
+import { AmbientSoundTag } from "../tags/ambient-sound.tag";
 
 export class GameScene {
   constructor() {
-    onKeyPress(["d"], () => {
-      if (isKeyDown("shift")) {
-        debug.inspect = !debug.inspect;
-      }
+    play(AmbientSoundTag.RIVER_FLOWING_INSECT, {
+      volume: GameConfig.ambientSoundVolume,
     });
 
     setGravity(1600);
