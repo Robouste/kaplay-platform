@@ -6,6 +6,7 @@ export class GameScene {
   constructor() {
     play(AmbientSoundTag.RIVER_FLOWING_INSECT, {
       volume: GameConfig.ambientSoundVolume,
+      loop: true,
     });
 
     setGravity(1600);

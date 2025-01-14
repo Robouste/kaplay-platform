@@ -46,10 +46,14 @@ export class Hero {
     onGamepadStick("left", (stick) => {
       if (stick.x > 0.5) {
         pressButton(HeroInput.MOVE_RIGHT);
+      } else {
+        releaseButton(HeroInput.MOVE_RIGHT);
       }
 
       if (stick.x < -0.5) {
         pressButton(HeroInput.MOVE_LEFT);
+      } else {
+        releaseButton(HeroInput.MOVE_LEFT);
       }
     });
 
