@@ -1,1 +1,1 @@
-export * from './direction.type';
+export * from './tiled-map.type';

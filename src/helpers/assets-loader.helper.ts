@@ -2,6 +2,7 @@ import { SpriteAnim } from "kaplay";
 import { HeroAnimation } from "../enums/hero/hero-animation.type";
 import { SoundTag, SpriteTag } from "../tags";
 import { AmbientSoundTag } from "../tags/ambient-sound.tag";
+import { TiledMapTag } from "../tags/tile-map.tag";
 
 export class AssetsLoader {
   public loadSprites(): void {
@@ -12,6 +13,8 @@ export class AssetsLoader {
     });
 
     loadSprite(SpriteTag.PROJECTILE_ARROW, "sprites/projectiles/arrow.webp");
+    loadSprite(SpriteTag.MAP_FOREST, "tiled-maps/forest-map.webp");
+    loadJSON(TiledMapTag.FOREST, "tiled-maps/forest-map.json");
   }
 
   public loadSounds(): void {

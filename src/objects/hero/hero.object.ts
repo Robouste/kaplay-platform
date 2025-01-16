@@ -8,6 +8,14 @@ import { GameSceneTag } from "../../tags/game-scene.tag";
 
 export class Hero {
   public gameObj: HeroGameObj;
+  public get isMovingRight(): boolean {
+    return isButtonDown(HeroInput.MOVE_RIGHT);
+  }
+
+  public get isMovingLeft(): boolean {
+    return isButtonDown(HeroInput.MOVE_LEFT);
+  }
+  public speed = 200;
 
   private _spriteHeight = 70;
   private _hitboxWidth = 60;
@@ -93,13 +101,9 @@ export class Hero {
 
     this.gameObj.onUpdate(() => {
       const isGrounded = this.gameObj.isGrounded();
-      const isMovingRight =
-        isButtonDown(HeroInput.MOVE_RIGHT) || getGamepadStick("left").x > 0.5;
-      const isMovingLeft =
-        isButtonDown(HeroInput.MOVE_LEFT) || getGamepadStick("left").x < -0.5;
 
       if (isGrounded) {
-        if (isMovingRight || isMovingLeft) {
+        if (this.isMovingRight || this.isMovingLeft) {
           this.animate(HeroAnimation.WALK, {
             exceptIf: HeroAnimation.SHOOT,
           });
@@ -107,6 +111,7 @@ export class Hero {
           this.animate(HeroAnimation.IDLE, {
             exceptIf: HeroAnimation.SHOOT,
           });
+          this.gameObj.vel.x = 0;
         }
 
         //~ is landing
@@ -118,15 +123,15 @@ export class Hero {
         }
       }
 
-      if (isMovingRight) {
+      if (this.isMovingRight) {
         this.gameObj.direction = RIGHT;
         this.gameObj.flipX = false;
-        this.gameObj.move(200, 0);
+        this.gameObj.vel.x = this.speed;
       }
-      if (isMovingLeft) {
+      if (this.isMovingLeft) {
         this.gameObj.direction = LEFT;
         this.gameObj.flipX = true;
-        this.gameObj.move(-200, 0);
+        this.gameObj.vel.x = -this.speed;
       }
     });
   }
