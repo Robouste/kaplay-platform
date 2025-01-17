@@ -1,19 +1,17 @@
-import { SpriteAnim } from "kaplay";
-import { HeroAnimation } from "../enums/hero/hero-animation.type";
+import { spriteConfig } from "../configs/sprite-assets.config";
 import { SoundTag, SpriteTag } from "../tags";
 import { AmbientSoundTag } from "../tags/ambient-sound.tag";
 import { TiledMapTag } from "../tags/tile-map.tag";
 
 export class AssetsLoader {
   public loadSprites(): void {
-    loadSprite(SpriteTag.HERO, "sprites/hero/hero-spritesheet.webp", {
-      sliceX: 5,
-      sliceY: 5,
-      anims: this.getHeroAnims(),
+    Object.keys(spriteConfig).forEach((key) => {
+      const tag = key as SpriteTag;
+      loadSprite(tag, spriteConfig[tag].path, spriteConfig[tag].options);
     });
+  }
 
-    loadSprite(SpriteTag.PROJECTILE_ARROW, "sprites/projectiles/arrow.webp");
-    loadSprite(SpriteTag.MAP_FOREST, "tiled-maps/forest-map.webp");
+  public loadMaps(): void {
     loadJSON(TiledMapTag.FOREST, "tiled-maps/forest-map.json");
   }
 
@@ -28,16 +26,5 @@ export class AssetsLoader {
       AmbientSoundTag.RIVER_FLOWING_INSECT,
       "sounds/ambience/river-flowing-insects.ogg"
     );
-  }
-
-  private getHeroAnims(): Record<HeroAnimation, SpriteAnim> {
-    return {
-      [HeroAnimation.IDLE]: { from: 0, to: 3, loop: true, speed: 7 },
-      [HeroAnimation.WALK]: { from: 5, to: 8, loop: true },
-      [HeroAnimation.HURT]: { from: 10, to: 11 },
-      [HeroAnimation.DIE]: { from: 12, to: 13 },
-      [HeroAnimation.SHOOT]: { from: 15, to: 19, speed: 15 },
-      [HeroAnimation.JUMP]: { from: 20, to: 22 },
-    };
   }
 }

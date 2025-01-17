@@ -16,6 +16,7 @@ loadRoot("./"); // A good idea for Itch.io publishing later
 const assetsLoader = new AssetsLoader();
 
 assetsLoader.loadSprites();
+assetsLoader.loadMaps();
 assetsLoader.loadSounds();
 assetsLoader.loadAmbientSounds();
 

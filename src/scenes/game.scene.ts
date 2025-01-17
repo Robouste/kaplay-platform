@@ -1,4 +1,5 @@
 import { GameConfig } from "../configs/game.config";
+import { spriteConfig } from "../configs/sprite-assets.config";
 import { Hero } from "../objects/hero/hero.object";
 import { SpriteTag } from "../tags";
 import { AmbientSoundTag } from "../tags/ambient-sound.tag";
@@ -16,9 +17,44 @@ export class GameScene {
     setGravity(1600);
     debug.inspect = true;
     this._hero = new Hero();
-    this._hero.add();
 
-    this.addMap();
+    this.addBackgrounds().then(() => {
+      this._hero.add();
+      this.addMap();
+    });
+  }
+
+  private async addBackgrounds(): Promise<void> {
+    const backgroundConfig = spriteConfig[SpriteTag.FOREST_BACKGROUND_DAY_1];
+
+    const bgSprite = await loadSprite(
+      SpriteTag.FOREST_BACKGROUND_DAY_1,
+      backgroundConfig.path
+    );
+    const mapRatio = this.getMapRatio(bgSprite.width);
+    const bgActualWidth = bgSprite.width * mapRatio;
+    const bgAmount = Math.ceil(width() / bgActualWidth);
+
+    const backgroundSprites = [
+      SpriteTag.FOREST_BACKGROUND_DAY_1,
+      SpriteTag.FOREST_BACKGROUND_DAY_2,
+      SpriteTag.FOREST_BACKGROUND_DAY_3,
+      SpriteTag.FOREST_BACKGROUND_DAY_4,
+    ];
+
+    onDraw(() => {
+      backgroundSprites.forEach((spriteName) => {
+        for (let i = 0; i < bgAmount; i++) {
+          drawSprite({
+            sprite: spriteName,
+            pos: vec2(i * bgActualWidth, 0),
+            anchor: "topleft",
+            height: height(),
+            fixed: true,
+          });
+        }
+      });
+    });
   }
 
   private addMap(): void {
@@ -30,8 +66,6 @@ export class GameScene {
         height: height(),
       });
     });
-
-    // add([sprite(SpriteTag.MAP_FOREST), pos(100, 200)]);
 
     const asset = getAsset("forest-tiled-map_json");
 
@@ -69,7 +103,7 @@ export class GameScene {
     }
 
     for (const obj of colliderLayer.objects) {
-      const collider = add([
+      add([
         rect(obj.width * mapRatio, obj.height * mapRatio),
         pos(obj.x * mapRatio, obj.y * mapRatio),
         area(),
